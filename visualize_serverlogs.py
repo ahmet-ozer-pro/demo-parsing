@@ -1,16 +1,15 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-server_df = pd.read_csv('output/parsed_serverlogs.csv')
 
-# Visualize the response codes
+df = pd.read_csv('output/parsed_serverlogs.csv')
+
+# Create a count plot of Request Methods
 plt.figure(figsize=(10, 6))
-plt.bar(server_df['IP Address'], server_df['Response Code'], color='skyblue')
-plt.xlabel('IP Address')
-plt.ylabel('Response Code')
-plt.title('Response Codes by IP Address')
+sns.countplot(data=df, x="Request Method")
+plt.title("Request Methods Count")
 plt.xticks(rotation=45)
-plt.tight_layout()
-
-# Show the plot
+plt.xlabel("Request Method")
+plt.ylabel("Count")
 plt.show()
