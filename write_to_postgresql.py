@@ -31,7 +31,6 @@ def create_table_if_not_exists(conn):
     cur.execute(table_schema)
     conn.commit()
 
-
 def insert_data_from_csv(conn, csv_path):
     cur = conn.cursor()
     with open(csv_path, 'r') as csv_file:
@@ -39,8 +38,20 @@ def insert_data_from_csv(conn, csv_path):
         next(csv_reader)  # Skip header row if it exists
         for row in csv_reader:
             # Modify this INSERT statement based on your CSV structure
-            insert_query = "INSERT INTO serverlogs (column1, column2) VALUES (%s, %s)"
-            cur.execute(insert_query, (row[0], row[1]))  # Adjust indices as needed
+            insert_query = """
+                INSERT INTO serverlogs (ip_address, timestamp_, request_method, url, response_code, user_agent, request_successful, request_failed)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """
+            cur.execute(insert_query, (
+                row[0],
+                row[1],
+                row[2],
+                row[3],
+                row[4],
+                row[5],
+                row[6],
+                row[7]
+            ))
     conn.commit()
 
 def main():
@@ -58,6 +69,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-
